@@ -50,7 +50,7 @@ const camera = new THREE.PerspectiveCamera(
   1,
   200
 );
-camera.position.set(0, 0, 20);
+camera.position.set(0, 10, 20);
 camera.lookAt(0, 0, 0);
 
 const controls = new OrbitControls(camera, labelRenderer.domElement);
@@ -136,7 +136,7 @@ function setupScene() {
 
   systemsArr.forEach((item) => {
     const color = new THREE.Color(
-      Number(starColors[item["Spectral Class"][0]?.toLowerCase()])
+      Number(starColors[item["Spectral Class"][0]?.toLowerCase()]) || 0xffffff
     );
     // const geometry = new THREE.IcosahedronGeometry(item.AbsMag / 500, 15);
     const geometry = new THREE.IcosahedronGeometry(0.05, 15);
@@ -148,12 +148,13 @@ function setupScene() {
     sphere.scale.setScalar(1.5);
     scene.add(sphere);
     const starDiv = document.createElement("div");
-    // starDiv.className = 'label';
-    // starDiv.textContent = item["Display Name"];
+    starDiv.className = "label";
+    starDiv.textContent = item["Display Name"];
+    starDiv.style.fontSize = "0.5rem";
     starDiv.style.color =
       starColors[item["Spectral Class"][0]?.toLowerCase()] || "white";
     const starLabel = new CSS2DObject(starDiv);
-    starLabel.position.set(0, -0.1, 0);
+    starLabel.position.set(0, -0.2, 0);
     sphere.add(starLabel);
     sphere.layers.enable(1);
   });
